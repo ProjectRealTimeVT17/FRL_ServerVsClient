@@ -22,9 +22,9 @@ namespace ClientVsServer.Controllers
         // GET: CustomersAsync
         public async Task<ActionResult> Index()
         {
-            CustomerViewModel  vm = new CustomerViewModel();
+            CustomerViewModel vm = new CustomerViewModel();
             await AsyncServices.GetCustomer(vm);
-            
+
             return View(vm);
         }
 
@@ -58,18 +58,27 @@ namespace ClientVsServer.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+
                 new Thread(() =>
                 {
                     Thread.CurrentThread.IsBackground = true;
-                    /* run your code here */
+                    
+                    for (int i = 0; i < 100; i++)
+                    {
+                        var _customer = new Customer();
+                        _customer.FirstName = customer.FirstName + "_" + i;
+                        _customer.LastName = customer.LastName + "_" + i;
+                        _customer.Age = customer.Age + i;
                         var _db = new ApplicationDbContext();
-                        _db.Customers.Add(customer);
-                        _db.SaveChangesAsync();
-                   
-                   
+                        
+                        _db.Customers.Add(_customer);
+                        _db.SaveChanges();
+                    }
+
+
+
                 }).Start();
-                
+
                 return RedirectToAction("Index");
             }
 

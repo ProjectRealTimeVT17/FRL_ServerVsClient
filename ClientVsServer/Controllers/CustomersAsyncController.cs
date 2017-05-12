@@ -5,9 +5,13 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using ClientVsServer.Models;
+using ClientVsServer.Services;
+using ClientVsServer.ViewModels;
+
 
 namespace ClientVsServer.Controllers
 {
@@ -18,7 +22,10 @@ namespace ClientVsServer.Controllers
         // GET: CustomersAsync
         public async Task<ActionResult> Index()
         {
-            return View(await db.Customers.ToListAsync());
+            CustomerViewModel  vm = new CustomerViewModel();
+            await AsyncServices.GetCustomer(vm);
+            
+            return View(vm);
         }
 
         // GET: CustomersAsync/Details/5
@@ -51,8 +58,18 @@ namespace ClientVsServer.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Customers.Add(customer);
-                await db.SaveChangesAsync();
+                
+                new Thread(() =>
+                {
+                    Thread.CurrentThread.IsBackground = true;
+                    /* run your code here */
+                        var _db = new ApplicationDbContext();
+                        _db.Customers.Add(customer);
+                        _db.SaveChangesAsync();
+                   
+                   
+                }).Start();
+                
                 return RedirectToAction("Index");
             }
 

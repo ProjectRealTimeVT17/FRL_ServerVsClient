@@ -17,7 +17,8 @@ namespace ClientVsServer.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-            return View(db.Customers.ToList());
+            var model = db.Customers.ToList();
+            return View(model);
         }
 
         // GET: Customers/Details/5

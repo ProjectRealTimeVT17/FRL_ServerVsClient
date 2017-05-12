@@ -8,7 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
-<body>
+<body id="body">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -27,7 +27,8 @@
 
                     <li>@Html.ActionLink("Purchases", "Index", "Purchases")</li>
                     <li>@Html.ActionLink("Purchases Async", "Index", "PurchasesAsync")</li>
-                </ul>
+                    <li>@Html.ActionLink("SQL Injections", "SQLInjection", "Home")</li>
+</ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

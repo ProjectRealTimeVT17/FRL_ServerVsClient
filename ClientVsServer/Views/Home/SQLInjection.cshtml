@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "SQL Injection";
+}
+
+<h2>SQL Injection</h2>
+<img src="https://imgs.xkcd.com/comics/exploits_of_a_mom.png" style="width: 100%;"/>
+<br/>
+<br/>
+<form method="post" action="@Url.Action("Inject", "Home")">
+    <label>First Name</label>
+    <input type="text" name="FirstName" id="FirstName" />  
+    <input type="submit" value="Be evil"/>
+</form>

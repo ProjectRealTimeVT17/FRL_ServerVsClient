@@ -5,6 +5,7 @@
 <div class="jumbotron">
     <h1>Client-side vs Server-side Logic</h1>
     <p class="lead">Samples of how and when to use (and not to use) which.</p>
+    <span id="username">Not Logged In</span>
 </div>
 
 <div class="row">
@@ -22,3 +23,19 @@
         <p>Security leaks and potential threats (DDOS, XSS, SQL Injections etc)</p>
     </div>
 </div>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document)
+        .ready(function() {
+            var request = $.ajax({
+                url: '@Url.Action("GetCurrentUser", "Home")',
+                dataType: ''
+            });
+
+            request.done(function(user) {
+                if (user != null) {
+                    $("#username").text(user.UserName);
+                }
+            });
+        });
+</script>

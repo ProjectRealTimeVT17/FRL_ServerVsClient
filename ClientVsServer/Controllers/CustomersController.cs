@@ -46,7 +46,6 @@ namespace ClientVsServer.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Age")] Customer customer)
         {
             if (ModelState.IsValid)
@@ -57,6 +56,16 @@ namespace ClientVsServer.Controllers
             }
 
             return View(customer);
+        }
+
+        public void ClearCustomers()
+        {
+            var customers = db.Customers.ToList();
+
+            db.Customers.RemoveRange(customers);
+            db.SaveChanges();
+
+
         }
 
         // GET: Customers/Edit/5

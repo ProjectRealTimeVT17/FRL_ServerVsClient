@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using ClientVsServer.Models;
@@ -48,11 +49,13 @@ namespace ClientVsServer.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,FirstName,LastName,CardNo")] Purchase purchase)
         {
+            Thread.Sleep(3000);
             if (ModelState.IsValid)
             {
                 db.Purchases.Add(purchase);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                
+                return PartialView("_purchaseList",db.Purchases.ToList());
             }
 
             return View(purchase);
